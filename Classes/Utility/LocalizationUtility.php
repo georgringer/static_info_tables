@@ -160,7 +160,8 @@ class LocalizationUtility
     public static function getLabelFields($tableName, $lang, $local = false)
     {
         $labelFields = [];
-        if (is_array($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'][$tableName]['label_fields'])) {
+        if (isset($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'][$tableName]['label_fields']) &&
+            is_array($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'][$tableName]['label_fields'])) {
             $alternativeLanguages = [];
             if (count(self::$alternativeLanguageKeys)) {
                 $alternativeLanguages = array_reverse(self::$alternativeLanguageKeys);
@@ -208,7 +209,7 @@ class LocalizationUtility
     public static function getIsoCodeField($table, $isoCode, $index = 0)
     {
         $isoCodeField = '';
-        $isoCodeFieldTemplate = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'][$table]['isocode_field'][$index];
+        $isoCodeFieldTemplate = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'][$table]['isocode_field'][$index] ?? '';
         if ($isoCode && $table && $isoCodeFieldTemplate) {
             $field = str_replace('##', self::isoCodeType($isoCode), $isoCodeFieldTemplate);
             if (is_array($GLOBALS['TCA'][$table]['columns'][$field])) {

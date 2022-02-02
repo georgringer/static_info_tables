@@ -239,7 +239,7 @@ abstract class AbstractEntityRepository extends Repository
                     if (!$fieldsInfo[$localizationField]) {
                         // Get field length
                         $matches = [];
-                        if (preg_match('#\\(([0-9]+)\\)#', $fieldInfo['Type'], $matches)) {
+                        if (preg_match('#\\(([0-9]+)\\)#', $fieldInfo['Type'] ?? '', $matches)) {
                             $localizationFieldLength = (int)($matches[1]);
                             // Add the localization field
                             $connection = $connectionPool->getConnectionForTable($tableName);
@@ -354,7 +354,7 @@ abstract class AbstractEntityRepository extends Repository
         foreach ($tableFields as $field) {
             // This is a very simple check if the field is from static_info_tables and not from a language pack
             $match = [];
-            if (!preg_match('#' . preg_quote($field) . '#m', $ext_tables, $match)) {
+            if (!preg_match('#' . preg_quote($field, '#') . '#m', $ext_tables, $match)) {
                 unset($dbFields[$tableName]['fields'][$field]);
             }
         }

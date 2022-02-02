@@ -84,7 +84,7 @@ class CachedClassLoader
         $className = ltrim($className, '\\');
         if (strpos($className, static::$namespace) !== false) {
             // Lookup the class in the array of static info entities and check its presence in the class cache
-            $entities = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][static::$extensionKey]['entities'];
+            $entities = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][static::$extensionKey]['entities'] ?? [];
             // ClassCacheManager instantiation creates the class cache if not already available
             $classCacheManager = GeneralUtility::makeInstance(ClassCacheManager::class);
             $cacheManager = GeneralUtility::makeInstance(CacheManager::class);

@@ -57,7 +57,7 @@ class AfterPackageActivationEventListener extends AbstractEventListener
                 || (count($extensionKeyParts) === 4 && strlen($extensionKeyParts[3]) === 2)
                 || (count($extensionKeyParts) === 5 && strlen($extensionKeyParts[3]) === 2 && strlen($extensionKeyParts[4]) === 2)
             ) {
-                $this->executeUpdate($extensionKey);
+                $this->executeUpdate();
             }
         }
     }

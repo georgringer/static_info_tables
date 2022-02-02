@@ -54,7 +54,7 @@ class AfterExtensionStaticDatabaseContentHasBeenImportedEventListener extends Ab
                 (count($extensionKeyParts) === 3 && $this->registry->get('extensionDataImport', $extTablesStaticSqlRelFile))
             ) {
             	$this->registry->remove('static_info_tables', 'last_update_status');
-                $this->executeUpdate($extensionKey);
+                $this->executeUpdate();
             }
         }
     }

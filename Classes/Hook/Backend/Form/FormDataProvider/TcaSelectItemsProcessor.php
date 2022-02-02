@@ -53,11 +53,11 @@ class TcaSelectItemsProcessor
      */
     public function translateTerritoriesSelector($PA, TcaSelectItems $fObj)
     {
-        switch ($PA['table']) {
+        switch ($PA['table'] ?? '') {
             case 'static_territories':
                 // Avoid circular relation
-                $row = $PA['row'];
-                foreach ($PA['items'] as $index => $item) {
+                $row = $PA['row'] ?? [];
+                foreach (($PA['items'] ?? []) as $index => $item) {
                     if ($item[1] == $row['uid']) {
                         unset($PA['items'][$index]);
                     }
@@ -137,7 +137,7 @@ class TcaSelectItemsProcessor
         $translatedItems = $items;
         if (isset($translatedItems) && is_array($translatedItems)) {
             foreach ($translatedItems as $key => $item) {
-                if ($translatedItems[$key][1]) {
+                if ($translatedItems[$key][1] ?? '') {
                     //Get isocode if present
                     $code = strstr($item[0], '(');
                     $code2 = strstr(substr($code, 1), '(');
@@ -181,8 +181,8 @@ class TcaSelectItemsProcessor
      */
     protected function replaceSelectorIndexField($PA)
     {
-        $items = $PA['items'];
-        $indexFields = GeneralUtility::trimExplode(',', $PA['config']['itemsProcFunc_config']['indexField'], true);
+        $items = $PA['items'] ?? [];
+        $indexFields = GeneralUtility::trimExplode(',', $PA['config']['itemsProcFunc_config']['indexField'] ?? '', true);
         if (!empty($indexFields)) {
             $rows = [];
             // Collect items uid's
@@ -194,29 +194,29 @@ class TcaSelectItemsProcessor
             }
             $uidList = implode(',', $uids);
             if (!empty($uidList)) {
-                switch ($PA['config']['foreign_table']) {
+                switch ($PA['config']['foreign_table'] ?? '') {
                     case 'static_territories':
-                        /** @var $territoryRepository SJBR\StaticInfoTables\Domain\Repository\TerritoryRepository */
+                        /** @var $territoryRepository \SJBR\StaticInfoTables\Domain\Repository\TerritoryRepository */
                         $territoryRepository = GeneralUtility::makeInstance(TerritoryRepository::class);
                         $objects = $territoryRepository->findAllByUidInList($uidList)->toArray();
                         break;
                     case 'static_countries':
-                        /** @var $countryRepository SJBR\StaticInfoTables\Domain\Repository\CountryRepository */
+                        /** @var $countryRepository \SJBR\StaticInfoTables\Domain\Repository\CountryRepository */
                         $countryRepository = GeneralUtility::makeInstance(CountryRepository::class);
                         $objects = $countryRepository->findAllByUidInList($uidList)->toArray();
                         break;
                     case 'static_country_zones':
-                        /** @var $countryZoneRepository SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository */
+                        /** @var $countryZoneRepository \SJBR\StaticInfoTables\Domain\Repository\CountryZoneRepository */
                         $countryZoneRepository = GeneralUtility::makeInstance(CountryZoneRepository::class);
                         $objects = $countryZoneRepository->findAllByUidInList($uidList)->toArray();
                         break;
                     case 'static_languages':
-                        /** @var $languageRepository SJBR\StaticInfoTables\Domain\Repository\LanguageRepository */
+                        /** @var $languageRepository \SJBR\StaticInfoTables\Domain\Repository\LanguageRepository */
                         $languageRepository = GeneralUtility::makeInstance(LanguageRepository::class);
                         $objects = $languageRepository->findAllByUidInList($uidList)->toArray();
                         break;
                     case 'static_currencies':
-                        /** @var $currencyRepository SJBR\StaticInfoTables\Domain\Repository\CurrencyRepository */
+                        /** @var $currencyRepository \SJBR\StaticInfoTables\Domain\Repository\CurrencyRepository */
                         $currencyRepository = GeneralUtility::makeInstance(CurrencyRepository::class);
                         $objects = $currencyRepository->findAllByUidInList($uidList)->toArray();
                         break;
@@ -228,7 +228,7 @@ class TcaSelectItemsProcessor
                     // Map table column to object property
                     $indexProperties = [];
                     foreach ($indexFields as $indexField) {
-                        if ($columnsMapping[$indexField]['mapOnProperty']) {
+                        if ($columnsMapping[$indexField]['mapOnProperty'] ?? '') {
                             $indexProperties[] = $columnsMapping[$indexField]['mapOnProperty'];
                         } else {
                             $indexProperties[] = GeneralUtility::underscoredToLowerCamelCase($indexField);
@@ -241,7 +241,7 @@ class TcaSelectItemsProcessor
                     }
                     // Replace the items index field
                     foreach ($items as $key => $item) {
-                        if ($items[$key][1]) {
+                        if ($items[$key][1] ?? '') {
                             $object = $uidIndexedObjects[$items[$key][1]];
                             $items[$key][1] = $object->_getProperty($indexProperties[0]);
                             if ($indexFields[1] && $object->_getProperty($indexProperties[1])) {

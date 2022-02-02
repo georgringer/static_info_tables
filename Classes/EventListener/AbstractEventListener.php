@@ -59,10 +59,9 @@ abstract class AbstractEventListener
     /**
      * Execute the update
      *
-     * @param string $extensionKey
      * @return void
      */
-    public function executeUpdate($extensionKey)
+    public function executeUpdate()
     {
         $databaseUpdateUtility = GeneralUtility::makeInstance(DatabaseUpdateUtility::class);
         // Clear the class cache

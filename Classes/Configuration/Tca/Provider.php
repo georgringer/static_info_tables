@@ -47,7 +47,7 @@ class Provider
     {
         foreach ($additionalFields as $sourceField => $destField) {
             $additionalColumns = [];
-            $additionalColumns[$destField] = $GLOBALS['TCA'][$tableName]['columns'][$sourceField];
+            $additionalColumns[$destField] = $GLOBALS['TCA'][$tableName]['columns'][$sourceField] ?? [];
             $additionalColumns[$destField]['label'] = sprintf(
                 static::$LL,
                 $extensionKey,

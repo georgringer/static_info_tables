@@ -54,7 +54,7 @@ class ConfigurationHelper
     public function buildEntitySelector(array $params, ExtendedTemplateService $pObj, $arg = '')
     {
         $field = '';
-        switch ($params['fieldName']) {
+        switch ($params['fieldName'] ?? '') {
             case 'data[plugin.tx_staticinfotables_pi1.countryCode]':
             case 'data[plugin.tx_staticinfotables_pi1.countriesAllowed]':
                 $repository = GeneralUtility::makeInstance(CountryRepository::class);

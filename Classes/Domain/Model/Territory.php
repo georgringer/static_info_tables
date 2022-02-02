@@ -90,7 +90,7 @@ class Territory extends AbstractEntity
      */
     public function setDeleted($deleted)
     {
-        return $this->deleted = $deleted;
+        $this->deleted = $deleted;
     }
 
     /**

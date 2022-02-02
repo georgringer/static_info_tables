@@ -46,7 +46,7 @@ class ModifyQuery
      */
     public function modifyQuery(&$parameters, $table, $pageId, $additionalConstraints, $fieldList, QueryBuilder $queryBuilder)
     {
-        if (in_array($table, array_keys($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables']))) {
+        if (in_array($table, array_keys($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'] ?? []))) {
             $lang = substr(strtolower($this->getLanguageService()->lang), 0, 2);
             if (ExtensionManagementUtility::isLoaded('static_info_tables_' . $lang)) {
                 $label = array_key_first($GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS']['static_info_tables']['tables'][$table]['label_fields']);

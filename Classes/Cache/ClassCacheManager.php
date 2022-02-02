@@ -84,7 +84,8 @@ class ClassCacheManager implements SingletonInterface
     protected function initializeCache()
     {
         if (!$this->cacheManager->hasCache($this->extensionKey)) {
-            if (is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$this->extensionKey])) {
+            if (isset($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$this->extensionKey]) &&
+                is_array($GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$this->extensionKey])) {
                 ArrayUtility::mergeRecursiveWithOverrule($this->cacheConfiguration[$this->extensionKey], $GLOBALS['TYPO3_CONF_VARS']['SYS']['caching']['cacheConfigurations'][$this->extensionKey]);
             }
             $this->cacheManager->setCacheConfigurations($this->cacheConfiguration);
@@ -101,7 +102,7 @@ class ClassCacheManager implements SingletonInterface
     public function build()
     {
         $extensibleExtensions = $this->getExtensibleExtensions();
-        $entities = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$this->extensionKey]['entities'];
+        $entities = $GLOBALS['TYPO3_CONF_VARS']['EXTENSIONS'][$this->extensionKey]['entities'] ?? [];
         foreach ($entities as $entity) {
             $key = 'Domain/Model/' . $entity;
 
